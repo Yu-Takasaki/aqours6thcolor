@@ -104,6 +104,7 @@ $(function () {
 
 
   // judgeボタン押下時
+  // 各メンバーカラーごとの判定を作成してください。
   function judgeDone(base, block, row, number) {
     console.log("base: ", base, "block: ", block, "row: ", row, "number: ", number)
     $("#judge-btn").click(function() {
