@@ -74,3 +74,5 @@
 これをもとに条件を切り替えていく
 担当色について： https://docs.google.com/spreadsheets/d/1RZ0jYB3hUZEeU8aeSze8GK5OLU8pBR-iSgFkyGO5EAQ/edit?usp=sharing
 
+## 公開について
+公開はGithub pageを利用し公開後、github pageのURLをホームページにiframeで埋め込んで使用する。
