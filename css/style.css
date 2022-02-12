@@ -1,0 +1,98 @@
+body {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-image: url(../img/bg_img.jpeg);
+
+    background-color:rgba(0, 0, 0, 0.637);
+    background-blend-mode:darken;
+    font-family: 'M PLUS 2', sans-serif;
+}
+
+/* デフォルトで以下の要素は非表示 */
+#input-base, #input-block, #input-row, #input-number, #judge-btn {
+    display: none;
+}
+
+#ticket-container {
+    position: relative;
+    font-weight: bold;
+    cursor: default;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 450px) {
+    #ticket-container {
+        font-size: medium;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    #ticket-container {
+        font-size: x-large;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    #ticket-container {
+        font-size: xx-large;
+    }
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    #ticket-container {
+        font-size:xx-large
+    }
+}
+
+#ticket-container > #number-container-ticket {
+    position: absolute;
+    width: 50%;
+    margin: 0 auto;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 767px) {
+    .navbar-brand > *{
+        display: block;
+    }
+    .logo-image {
+        width: 100%;
+    }
+}
+
+.accordion-item {
+    background-color: white;
+}
+
+/* #input-seat,
+#input-floor,
+#input-row,
+#input-lr,
+#input-number {
+    display: none;
+} */
+
+.text {
+    color: #190586
+}
+
+.result {
+    color: #ffffff;
+    text-shadow: 0 1px 1px #acacac;
+    text-align: center;
+}
+
+/* 結果のアイコンの大きさ */
+#result-img {
+    min-width: 150px;
+    max-width: 200px;
+    margin: 2rem auto;
+    display: block;
+}
