@@ -72,6 +72,7 @@
 ## 座席の色分けについて
 座席の色分けは以下のファイルを参照。
 これをもとに条件を切り替えていく
+参考座席表：https://zaseki.music-mdata.com/9886/1
 担当色について： https://docs.google.com/spreadsheets/d/1RZ0jYB3hUZEeU8aeSze8GK5OLU8pBR-iSgFkyGO5EAQ/edit?usp=sharing
 
 ## 公開について
