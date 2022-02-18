@@ -83,8 +83,9 @@
                 <h4 class="card-title text-center">座席の種類</h4>
                 <select class="form-select" name="select_seet_type" id="select-seet-type">
                   <option value="">選択してください</option>
-                  <option value="arena">アリーナ(フィールドシート含)</option>
-                  <option value="stand">スタンド(ネット裏含)</option>
+                  <option value="arena">アリーナ</option>
+                  <option value="field">フィールドシート</option>
+                  <option value="other">上記以外</option>
                 </select>
               </div>
             </div>
@@ -135,9 +136,7 @@
             <div class="card" id="input-number">
               <div class="card-body">
                 <h4 class="card-title text-center">番号</h4>
-                <select class="form-select" name="select_number" id="select-number">
-                  <option value="">選択してください</option>
-                </select>
+                <input type="number" class="form-control" name="input_number" id="textbox-number" min=1 placeholder="座席番号を入力してください。">
               </div>
             </div>
           </div>
