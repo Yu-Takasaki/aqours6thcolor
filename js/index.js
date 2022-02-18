@@ -116,6 +116,14 @@ $(function () {
     createOptions(target, initValues);
   }
 
+  // スタンド席の全体選択項目を初期化する
+  function clearAllSelectBox(){
+    selectBoxInitialize("#select-base");
+    selectBoxInitialize("#select-block");
+    selectBoxInitialize("#select-row");
+    selectBoxInitialize("#textbox-number");
+  }
+
   function createRowArray(min, max) {
     return Array.from({length: max - min + 1}, (_, i)=> String(min + i));
   }
@@ -149,6 +157,9 @@ $(function () {
     releaseDisplay("#input-row");
     releaseDisplay("#input-number");
     
+    //善選択項目クリア
+    clearAllSelectBox()
+
     //塁側選択項目追加
     initBase();
     initBlock();
@@ -159,7 +170,6 @@ $(function () {
     const baseId = "#select-base";
 
     selectBoxInitialize(baseId);
-
     createOptions(baseId, BASE_OPTIONS);
 
     const $base = $(baseId);
