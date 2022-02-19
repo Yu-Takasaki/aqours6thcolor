@@ -328,7 +328,7 @@ $(function () {
           "ruby": [29, 34],
           "hanamaru": [35, 40],
           "riko": [41, 46],
-          "you": [39, 47]
+          "you": [47, 60]
         };
       } else if (block === "179" || block === "379") {
         colorSet = {
