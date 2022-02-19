@@ -25,10 +25,10 @@ $(function () {
   const NET_BLOCK_DEFAULT_ROW_EVEN = [1, 16]; //偶数ブロックの基本座席範囲
   const NET_BLOCK_DEFAULT_ROW_ODD = [27, 47]; //奇数ブロックの基本座席範囲
   const NET_BLOCK_NOT_DEFAULT_PATTERN = [     //パターン外のブロック
+    "210",
     "213",
     "215",
-    "216",
-    "218"
+    "216"
   ];
 
   //ブロック区分定数-3塁側
