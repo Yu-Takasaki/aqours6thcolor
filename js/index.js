@@ -19,7 +19,7 @@ $(function () {
   };
 
   //ブロック区分定数-ネット裏
-  const NET_BLOCK_MIN = 201; //ブロックが始まる数字
+  const NET_BLOCK_MIN = 200; //ブロックが始まる数字
   const NET_BLOCK_MAX = 227;　//ブロックが終わる数字
   const BLOCK_DATA_NET = createRowArray(NET_BLOCK_MIN, NET_BLOCK_MAX);　//全体座席範囲
   const NET_BLOCK_DEFAULT_ROW_EVEN = [1, 16]; //偶数ブロックの基本座席範囲
