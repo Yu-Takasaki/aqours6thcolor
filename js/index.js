@@ -24,12 +24,16 @@ $(function () {
   const BLOCK_DATA_NET = createRowArray(NET_BLOCK_MIN, NET_BLOCK_MAX);　//全体座席範囲
   const NET_BLOCK_DEFAULT_ROW_EVEN = [1, 16]; //偶数ブロックの基本座席範囲
   const NET_BLOCK_DEFAULT_ROW_ODD = [27, 47]; //奇数ブロックの基本座席範囲
-  const NET_BLOCK_NOT_DEFAULT_PATTERN = [     //パターン外のブロック
-    "210",
-    "213",
-    "215",
-    "216"
-  ];
+  const NET_BLOCK_NOT_DEFAULT_PATTERN = {     //パターン外のブロック
+    "200": [13, 20],
+    "210": [4, 20],
+    "212": [8, 20],
+    "213": [21, 26],
+    "214": [8, 20],
+    "215": [21, 26],
+    "216": [4, 20],
+    "226": [13, 20]
+  };
 
   //ブロック区分定数-3塁側
   const BLOCK_DATA_THIRD = {
@@ -213,20 +217,16 @@ $(function () {
         let min, max;
         let data = [];
         
-        if (NET_BLOCK_NOT_DEFAULT_PATTERN.includes(val)){
-          if (Number(val) % 2 == 0){
-            [min, max] = [4, 20];
-          } else {
-            [min, max] = [21, 26];
-          }
+        if (Object.keys(NET_BLOCK_NOT_DEFAULT_PATTERN).includes(val)){
+          [min, max] = NET_BLOCK_NOT_DEFAULT_PATTERN[val];
         }else{
           if (Number(val) % 2 == 0){
             [min, max] = NET_BLOCK_DEFAULT_ROW_EVEN;
           } else {
             [min, max] = NET_BLOCK_DEFAULT_ROW_ODD;
           }
-          data = createRowArray(min, max);
         }
+        data = createRowArray(min, max);
         createOptions(target, data);  
       }
     })
