@@ -10,6 +10,15 @@ $(function () {
   // 類別区分定数
   const BASE_OPTIONS = ["1塁（ライトスタンド）","ネット裏","3塁（レフトスタンド）"];
 
+  // 入力フォームのIDオブジェクト
+  const INPUT_IDS = {
+    "type" : "#select-seat-type",
+    "base" : "#select-base",
+    "block" : "#select-block",
+    "row" : "#select-row",
+    "number" : "#textbox-number"
+  }
+
   // ブロック区分定数-1塁側
   const BLOCK_DATA_FIRST = {
     // 座席番号：[座席最小番号, 座席最大番号]
@@ -107,9 +116,9 @@ $(function () {
 
   // 選択肢をアンマウントする(selectの子要素をemptyにする)
   function deleteOptions() {
-    $("#select-base").empty();
-    $("#select-block").empty();
-    $("#select-row").empty();
+    $(INPUT_IDS["base"]).empty();
+    $(INPUT_IDS["block"]).empty();
+    $(INPUT_IDS["row"]).empty();
   }
 
   // 特定の選択肢をアンマウントする
@@ -125,14 +134,14 @@ $(function () {
 
   // スタンド席の全体選択項目を初期化する
   function clearAllSelectBox() {
-    selectBoxInitialize("#select-base");
-    selectBoxInitialize("#select-block");
-    selectBoxInitialize("#select-row");
+    selectBoxInitialize(INPUT_IDS["base"]);
+    selectBoxInitialize(INPUT_IDS["block"]);
+    selectBoxInitialize(INPUT_IDS["row"]);
   }
   
   // スタンド席の全体選択項目を初期化する
   function clearAllInputData() {
-    $("#textbox-number").val('');
+    $(INPUT_IDS["number"]).val('');
   }
 
   function createRowArray(min, max) {
@@ -140,14 +149,14 @@ $(function () {
   }
 
   //席種に応じて選択肢の表示を変える
-  $("#select-seat-type").change(function() {
+  $(INPUT_IDS["type"]).change(function() {
     displayNoneAll();
 
     //入力項目初期化
     clearAllSelectBox();
     clearAllInputData();
     
-    const seat_type = $("#select-seat-type").val();
+    const seat_type = $(INPUT_IDS["type"]).val();
     if (seat_type) {
       releaseDisplay("#judge-btn");
       judgeDone();
@@ -181,7 +190,7 @@ $(function () {
 
   // 塁側選択項目初期化
   function initBase() {
-    const baseId = "#select-base";
+    const baseId = INPUT_IDS["base"];
 
     selectBoxInitialize(baseId);
     createOptions(baseId, BASE_OPTIONS);
@@ -189,11 +198,11 @@ $(function () {
     // 塁側選択項目イベント登録
     $(baseId).change((e) => {
       const val = e.target.value;
-      const selectBlockId = "#select-block";
+      const selectBlockId = INPUT_IDS["block"];
       let optionArray = []
 
       selectBoxInitialize(selectBlockId);
-      selectBoxInitialize("#select-row");
+      selectBoxInitialize(INPUT_IDS["row"]);
       
       if (val === BASE_OPTIONS[0]) {
         optionArray = Object.keys(BLOCK_DATA_FIRST);
@@ -209,9 +218,9 @@ $(function () {
 
   // ブロック選択項目初期化
   function initBlock() { 
-    $("#select-block").change((e) => {
+    $(INPUT_IDS["block"]).change((e) => {
       const val = e.target.value;
-      const selectRowId = "#select-row";
+      const selectRowId = INPUT_IDS["row"];
       let data = [];
 
       selectBoxInitialize(selectRowId);
@@ -243,7 +252,7 @@ $(function () {
   function judgeDone() {
     $("#judge-btn").click(function() {
       try {
-        const seatType = $("#select-seat-type").val();
+        const seatType = $(INPUT_IDS["type"]).val();
       
         // スタンド席以外
         if (seatType !== "other") {
@@ -253,10 +262,10 @@ $(function () {
         
         // スタンド席選択・入力値取得
         const standSeatData = {
-          "base" : $("#select-base").val(),
-          "block" : $("#select-block").val(),
-          "row" : $("#select-row").val(),
-          "seatNumber" : $("#textbox-number").val()
+          "base" : $(INPUT_IDS["base"]).val(),
+          "block" : $(INPUT_IDS["block"]).val(),
+          "row" : $(INPUT_IDS["row"]).val(),
+          "number" : $(INPUT_IDS["number"]).val()
         };
                 
         // 未選択判別
@@ -269,7 +278,7 @@ $(function () {
         });
 
         if (unseletedCheck.includes(true)) {
-          result('unselected');
+          // result('unselected');
           return;
         }
         
@@ -423,11 +432,6 @@ $(function () {
       src = "./img/error.png";
       color = "";
       text = "エラー";
-    }
-    if (member === "unselected") {
-      src = "./img/error.png";
-      color = "";
-      text = "未選択";
     }
     $("#result-img").attr("src", src);
     $("#result").css("color", color);
