@@ -110,7 +110,6 @@ $(function () {
     $("#select-base").empty();
     $("#select-block").empty();
     $("#select-row").empty();
-    $("#textbox-number").empty();
   }
 
   // 特定の選択肢をアンマウントする
@@ -119,17 +118,21 @@ $(function () {
   }
 
   function selectBoxInitialize(target) {
-    const initValues = ["選択してください"];
+    const initValues = [DEFAULT_SELECT_OPTION];
     deleteTargetOptions(target);
     createOptions(target, initValues);
   }
 
   // スタンド席の全体選択項目を初期化する
-  function clearAllSelectBox(){
+  function clearAllSelectBox() {
     selectBoxInitialize("#select-base");
     selectBoxInitialize("#select-block");
     selectBoxInitialize("#select-row");
-    selectBoxInitialize("#textbox-number");
+  }
+  
+  // スタンド席の全体選択項目を初期化する
+  function clearAllInputData() {
+    $("#textbox-number").val('');
   }
 
   function createRowArray(min, max) {
@@ -139,7 +142,10 @@ $(function () {
   //席種に応じて選択肢の表示を変える
   $("#select-seat-type").change(function() {
     displayNoneAll();
+
+    //入力項目初期化
     clearAllSelectBox();
+    clearAllInputData();
     
     const seat_type = $("#select-seat-type").val();
     if (seat_type) {
@@ -180,23 +186,24 @@ $(function () {
     selectBoxInitialize(baseId);
     createOptions(baseId, BASE_OPTIONS);
 
-    const $base = $(baseId);
-
     // 塁側選択項目イベント登録
-    $base.change((e) => {
+    $(baseId).change((e) => {
       const val = e.target.value;
-      const target = "#select-block";
+      const selectBlockId = "#select-block";
+      let optionArray = []
 
-      selectBoxInitialize(target);
+      selectBoxInitialize(selectBlockId);
       selectBoxInitialize("#select-row");
       
       if (val === BASE_OPTIONS[0]) {
-        createOptions(target, Object.keys(BLOCK_DATA_FIRST));
-      }else  if (val === BASE_OPTIONS[1]) {
-        createOptions(target, BLOCK_DATA_NET);
-      }else if (val === BASE_OPTIONS[2]) {
-        createOptions(target, Object.keys(BLOCK_DATA_THIRD));  
+        optionArray = Object.keys(BLOCK_DATA_FIRST);
+      } else if (val === BASE_OPTIONS[1]) {
+        optionArray = BLOCK_DATA_NET;
+      } else if (val === BASE_OPTIONS[2]) {
+        optionArray = Object.keys(BLOCK_DATA_THIRD);  
       }
+
+      createOptions(selectBlockId, optionArray)
     })
   }
 
@@ -204,35 +211,30 @@ $(function () {
   function initBlock() { 
     $("#select-block").change((e) => {
       const val = e.target.value;
-      const target = "#select-row";
+      const selectRowId = "#select-row";
+      let data = [];
 
-      selectBoxInitialize(target);
+      selectBoxInitialize(selectRowId);
       
       // 選択した席により列の項目を生成
       if (Object.keys(BLOCK_DATA_FIRST).includes(val)) {
         const [min, max] = BLOCK_DATA_FIRST[val];
-        const data = createRowArray(min,max);
-        createOptions(target, data);  
+        data = createRowArray(min,max);
       } else if (Object.keys(BLOCK_DATA_THIRD).includes(val)) {
         const [min, max] = BLOCK_DATA_THIRD[val];
-        const data = createRowArray(min, max);
-        createOptions(target, data);  
+        data = createRowArray(min, max);
       } else if (BLOCK_DATA_NET.includes(val)) {
         let min, max;
-        let data = [];
         
         if (Object.keys(NET_BLOCK_NOT_DEFAULT_PATTERN).includes(val)) {
           [min, max] = NET_BLOCK_NOT_DEFAULT_PATTERN[val];
-        }else{
-          if (Number(val) % 2 == 0) {
-            [min, max] = NET_BLOCK_DEFAULT_ROW_EVEN;
-          } else {
-            [min, max] = NET_BLOCK_DEFAULT_ROW_ODD;
-          }
+        } else {
+          [min, max] = Number(val) % 2 == 0 ? NET_BLOCK_DEFAULT_ROW_EVEN : NET_BLOCK_DEFAULT_ROW_ODD;
         }
         data = createRowArray(min, max);
-        createOptions(target, data);  
       }
+
+      createOptions(selectRowId, data);  
     })
   }
 
@@ -432,7 +434,6 @@ $(function () {
     $("#result").html(text);
     $("#modal-options").iziModal("open");
   }
-
 
   // モーダル初期化
   $("#modal-options").iziModal();
