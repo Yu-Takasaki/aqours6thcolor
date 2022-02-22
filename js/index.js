@@ -126,6 +126,7 @@ $(function () {
     $(target).empty();
   }
 
+  // セレクトボックスを初期化
   function selectBoxInitialize(target) {
     const initValues = [DEFAULT_SELECT_OPTION];
     deleteTargetOptions(target);
@@ -144,6 +145,25 @@ $(function () {
     $(INPUT_IDS["number"]).val('');
   }
 
+  // エラー表示用のクラスを追加
+  function addInvalidClass(target) {
+    $(target).addClass("is-invalid");
+  }
+  // エラー表示用のクラスを削除
+  function removeInvalidClass(target) {
+    $(target).removeClass("is-invalid");
+  }
+
+  // スタンド席の全体選択項目のバリデーションチェック結果を初期化する
+  function clearAllValid() {
+    removeInvalidClass(INPUT_IDS["base"]);
+    removeInvalidClass(INPUT_IDS["block"]);
+    removeInvalidClass(INPUT_IDS["row"]);
+    removeInvalidClass(INPUT_IDS["number"]);
+
+  }
+
+  // 列生成用の配列を生成
   function createRowArray(min, max) {
     return Array.from({length: max - min + 1}, (_, i)=> String(min + i));
   }
@@ -155,6 +175,7 @@ $(function () {
     //入力項目初期化
     clearAllSelectBox();
     clearAllInputData();
+    clearAllValid();
     
     const seat_type = $(INPUT_IDS["type"]).val();
     if (seat_type) {
@@ -186,9 +207,30 @@ $(function () {
     // 塁側選択項目追加
     initBase();
     initBlock();
+    initRow();
+    initNumber();
   }
 
-  // 塁側選択項目初期化
+  //バリデーション（選択項目）
+  function selectValid(val) {
+    if(val === DEFAULT_SELECT_OPTION) {
+      return false;
+    }
+    if(!val) {
+      return false;
+    }
+    return true;
+  }
+
+  //バリデーション（入力項目）
+  function inputValid(val) {
+    if(!val) {
+      return false;
+    }
+    return true;
+  }
+
+  // 塁側選択項目初期処理
   function initBase() {
     const baseId = INPUT_IDS["base"];
 
@@ -200,6 +242,13 @@ $(function () {
       const val = e.target.value;
       const selectBlockId = INPUT_IDS["block"];
       let optionArray = []
+
+      //入力チェック
+      if(selectValid(val)) {
+        removeInvalidClass(baseId);
+      } else {
+        addInvalidClass(baseId);
+      }
 
       selectBoxInitialize(selectBlockId);
       selectBoxInitialize(INPUT_IDS["row"]);
@@ -216,12 +265,20 @@ $(function () {
     })
   }
 
-  // ブロック選択項目初期化
+  // ブロック選択項目初期処理
   function initBlock() { 
-    $(INPUT_IDS["block"]).change((e) => {
+    const blockId = INPUT_IDS["block"];
+    $(blockId).change((e) => {
       const val = e.target.value;
       const selectRowId = INPUT_IDS["row"];
       let data = [];
+
+      //入力チェック
+      if(selectValid(val)) {
+        removeInvalidClass(blockId);
+      } else {
+        addInvalidClass(blockId);
+      }
 
       selectBoxInitialize(selectRowId);
       
@@ -244,6 +301,36 @@ $(function () {
       }
 
       createOptions(selectRowId, data);  
+    })
+  }
+
+  // 列選択項目初期処理
+  function initRow() { 
+    const rowId = INPUT_IDS["row"];
+    $(rowId).change((e) => {
+      const val = e.target.value;
+
+      //入力チェック
+      if(selectValid(val)) {
+        removeInvalidClass(rowId);
+      } else {
+        addInvalidClass(rowId);
+      }
+    })
+  }
+
+  // 座席番号入力項目初期処理
+  function initNumber() { 
+    const numberId = INPUT_IDS["number"];
+    $(numberId).focusout((e) => {
+      const val = e.target.value;
+
+      //入力チェック
+      if(inputValid(val)) {
+        removeInvalidClass(numberId);
+      } else {
+        addInvalidClass(numberId);
+      }
     })
   }
 
@@ -278,7 +365,13 @@ $(function () {
         });
 
         if (unseletedCheck.includes(true)) {
-          // result('unselected');
+          const ids = Object.keys(standSeatData);
+          for(i in unseletedCheck) {
+            if(unseletedCheck[i]) {
+              const id = ids[i];
+              addInvalidClass(INPUT_IDS[id]);
+            }
+          }
           return;
         }
         
@@ -295,10 +388,10 @@ $(function () {
     });
   }
 
-
+  // 色を検索
   function findColor(block, row) {
     // 当てはまる色があるか確認
-    const filerColor = (row, colorSet) => {
+    const colorFiler = (row, colorSet) => {
       const between = (x, min, max) => {
         return x >= min && x <= max;
       };
@@ -375,7 +468,7 @@ $(function () {
       return "error";
     } 
 
-    return filerColor(row, colorSet);
+    return colorFiler(row, colorSet);
   }
 
 
