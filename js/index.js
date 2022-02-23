@@ -300,7 +300,7 @@ $(function () {
           return key;
         } 
       }
-      return "rangeOut";
+      return "rangeout";
     };
 
     let colorSet = {};
@@ -337,7 +337,7 @@ $(function () {
           "yohane": [29, 29]
         };
       } else {
-        result("rangeOut");
+        result("rangeout");
       }
     } else if (BLOCK_DATA_NET.includes(block)) {
       if (block === "213" || block === "215") {
@@ -421,6 +421,11 @@ $(function () {
         src = "./img/error.png";
         color = "";
         text = "エラー";
+      }
+      if (member === "rangeout") {
+        src = "./img/error.png";
+        color = "red";
+        text = "そこに座席はありませんわ。もう一度自分の座席を確認してごらんなさい。";
       }
     }
 
