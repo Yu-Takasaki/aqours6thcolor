@@ -1,8 +1,8 @@
 $(function () {
-  // 画像配列
-  const img = new Array();
-  img[0] = new Image();
-  img[0] = "./img/result_sample.png";
+  // 画像関連
+  const ICON_PATH_GEN = (name) => {
+    return `./img/member_icon/${name}.png`
+  };
 
   // 選択項目初期値
   const DEFAULT_SELECT_OPTION　= "選択してください";
@@ -402,7 +402,7 @@ $(function () {
           return key;
         } 
       }
-      return "rangeOut";
+      return "rangeout";
     };
 
     let colorSet = {};
@@ -417,7 +417,7 @@ $(function () {
         };
       } else if (block === "L1-L9" || block === "L2-L10") {
         colorSet = {
-          "hanamaru": [1, 2]
+          "maru": [1, 2]
         };
       } else if (block === "D1-D9" || block === "D2-D10") {
         colorSet = {
@@ -430,7 +430,7 @@ $(function () {
           "dia": [15, 21],
           "yohane": [22, 28],
           "ruby": [29, 34],
-          "hanamaru": [35, 40],
+          "maru": [35, 40],
           "riko": [41, 46],
           "you": [47, 60]
         };
@@ -439,13 +439,13 @@ $(function () {
           "yohane": [29, 29]
         };
       } else {
-        result("rangeOut");
+        result("rangeout");
       }
     } else if (BLOCK_DATA_NET.includes(block)) {
       if (block === "213" || block === "215") {
         colorSet = {
           "ruby": [21, 24],
-          "hanamaru": [25, 26]
+          "maru": [25, 26]
         };
       } else {
         if (Number(block) % 2 == 0) {
@@ -458,7 +458,7 @@ $(function () {
         } else {
           colorSet = {
             "ruby": [21, 26],
-            "hanamaru": [27, 32],
+            "maru": [27, 32],
             "riko": [33, 38],
             "you": [39, 47]
           };
@@ -474,58 +474,63 @@ $(function () {
 
   // 結果を返す
   function result(member) {
-    console.log("member: ", member)
     let src, color, text;
-    if (member === "chika") {
-      src = img[0];
-      color = "";
-      text = "みかん色";
+
+    const memberColorSet = {
+      "chika": {
+        "color": "#ff7f32",
+        "text": "みかん色",
+      },
+      "riko": {
+        "color": "#FB6372",
+        "text": "サクラピンク",
+      },
+      "kanan": {
+        "color": "#00c7b1",
+        "text": "エメラルドグリーン",
+      },
+      "dia": {
+        "color": "#e4002b",
+        "text": "レッド",
+      },
+      "you": {
+        "color": "#00b5e2",
+        "text": "ライトブルー",
+      },
+      "yohane": {
+        "color": "#d4d4d4",
+        "text": "ホワイト",
+      },
+      "maru": {
+        "color": "#ffcd00",
+        "text": "イエロー",
+      },
+      "mari": {
+        "color": "#9b26b6",
+        "text": "バイオレット",
+      },
+      "ruby": {
+        "color": "#e93cac",
+        "text": "ピンク",
+      },
     }
-    if (member === "riko") {
-      src = img[0];
-      color = "";
-      text = "サクラピンク";
+
+    if (Object.keys(memberColorSet).includes(member)) {
+      src = ICON_PATH_GEN(member);
+      ({color, text} = memberColorSet[member]);
+    } else {
+      if (member === "error") {
+        src = "./img/error.png";
+        color = "";
+        text = "エラー";
+      }
+      if (member === "rangeout") {
+        src = "./img/error.png";
+        color = "red";
+        text = "そこに座席はありませんわ。もう一度自分の座席を確認してごらんなさい。";
+      }
     }
-    if (member === "kanan") {
-      src = img[0];
-      color = "";
-      text = "エメラルドグリーン";
-    }
-    if (member === "dia") {
-      src = img[0];
-      color = "";
-      text = "レッド";
-    }
-    if (member === "you") {
-      src = img[0];
-      color = "";
-      text = "ライトブルー";
-    }
-    if (member === "yohane") {
-      src = img[0];
-      color = "";
-      text = "ホワイト";
-    }
-    if (member === "hanamaru") {
-      src = img[0];
-      color = "";
-      text = "イエロー";
-    }
-    if (member === "mari") {
-      src = img[0];
-      color = "";
-      text = "バイオレット";
-    }
-    if (member === "ruby") {
-      src = img[0];
-      color = "";
-      text = "ピンク";
-    }
-    if (member === "error") {
-      src = "./img/error.png";
-      color = "";
-      text = "エラー";
-    }
+    
     $("#result-img").attr("src", src);
     $("#result").css("color", color);
     $("#result").html(text);
