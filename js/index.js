@@ -5,18 +5,19 @@ $(function () {
   };
 
   // 選択項目初期値
-  const DEFAULT_SELECT_OPTION　= "選択してください";
+  const DEFAULT_SELECT_OPTION = "選択してください";
 
   // 類別区分定数
-  const BASE_OPTIONS = ["1塁（ライトスタンド）","ネット裏","3塁（レフトスタンド）"];
+  const BASE_OPTIONS = ["1塁（ライトスタンド）", "ネット裏", "3塁（レフトスタンド）"];
 
   // 入力フォームのIDオブジェクト
   const INPUT_IDS = {
-    "type" : "#select-seat-type",
-    "base" : "#select-base",
-    "block" : "#select-block",
-    "row" : "#select-row",
-    "number" : "#textbox-number"
+    "type": "#select-seat-type",
+    "base": "#select-base",
+    "block": "#select-block",
+    "row": "#select-row",
+    "number": "#textbox-number",
+    "row-number": "#input-row-number"
   }
 
   // ブロック区分定数-1塁側
@@ -32,8 +33,8 @@ $(function () {
 
   // ブロック区分定数-ネット裏
   const NET_BLOCK_MIN = 200; // ブロックが始まる数字
-  const NET_BLOCK_MAX = 227;　// ブロックが終わる数字
-  const BLOCK_DATA_NET = createRowArray(NET_BLOCK_MIN, NET_BLOCK_MAX);　// 全体座席範囲
+  const NET_BLOCK_MAX = 227; // ブロックが終わる数字
+  const BLOCK_DATA_NET = createRowArray(NET_BLOCK_MIN, NET_BLOCK_MAX); // 全体座席範囲
   const NET_BLOCK_DEFAULT_ROW_EVEN = [1, 16]; // 偶数ブロックの基本座席範囲
   const NET_BLOCK_DEFAULT_ROW_ODD = [27, 47]; // 奇数ブロックの基本座席範囲
   const NET_BLOCK_NOT_DEFAULT_PATTERN = {     // パターン外のブロック
@@ -58,7 +59,7 @@ $(function () {
     "379": [29, 29],
     "380-384": [1, 21]
   };
-  
+
   // 指定した要素を表示させる
   function releaseDisplay(target) {
     $(target).removeClass("d-none");
@@ -139,7 +140,7 @@ $(function () {
     selectBoxInitialize(INPUT_IDS["block"]);
     selectBoxInitialize(INPUT_IDS["row"]);
   }
-  
+
   // スタンド席の全体選択項目を初期化する
   function clearAllInputData() {
     $(INPUT_IDS["number"]).val('');
@@ -165,27 +166,23 @@ $(function () {
 
   // 列生成用の配列を生成
   function createRowArray(min, max) {
-    return Array.from({length: max - min + 1}, (_, i)=> String(min + i));
+    return Array.from({ length: max - min + 1 }, (_, i) => String(min + i));
   }
 
   //席種に応じて選択肢の表示を変える
-  $(INPUT_IDS["type"]).change(function() {
+  $(INPUT_IDS["type"]).change(function () {
     displayNoneAll();
 
     //入力項目初期化
     clearAllSelectBox();
     clearAllInputData();
     clearAllValid();
-    
-    const seat_type = $(INPUT_IDS["type"]).val();
-    if (seat_type) {
-      releaseDisplay("#judge-btn");
-      judgeDone();
 
-      if (seat_type === "other") {
-        selectedSeatByOther();
-        return;
-      }
+    const seat_type = $(INPUT_IDS["type"]).val();
+    if (seat_type === "other") {
+      initBase();
+      return;
+    } else if (seat_type) {
       arenaFunc();
       return;
     }
@@ -193,30 +190,16 @@ $(function () {
 
   // アリーナ席、フィールドシートの場合
   function arenaFunc() {
-    console.log("arena!!")
-  }
-
-  // スタンド席の場合
-  function selectedSeatByOther() {
-    // 選択項目を表示
-    releaseDisplay("#input-base");
-    releaseDisplay("#input-block");
-    releaseDisplay("#input-row");
-    releaseDisplay("#input-number");
-
-    // 塁側選択項目追加
-    initBase();
-    initBlock();
-    initRow();
-    initNumber();
+    releaseDisplay("#judge-btn");
+    judgeDone();
   }
 
   //バリデーション（選択項目）
   function selectValid(val) {
-    if(val === DEFAULT_SELECT_OPTION) {
+    if (val === DEFAULT_SELECT_OPTION) {
       return false;
     }
-    if(!val) {
+    if (!val) {
       return false;
     }
     return true;
@@ -224,7 +207,7 @@ $(function () {
 
   //バリデーション（入力項目）
   function inputValid(val) {
-    if(!val) {
+    if (!val) {
       return false;
     }
     return true;
@@ -232,6 +215,7 @@ $(function () {
 
   // 塁側選択項目初期処理
   function initBase() {
+    releaseDisplay("#input-base");
     const baseId = INPUT_IDS["base"];
 
     selectBoxInitialize(baseId);
@@ -244,21 +228,22 @@ $(function () {
       let optionArray = []
 
       //入力チェック
-      if(selectValid(val)) {
+      if (selectValid(val)) {
         removeInvalidClass(baseId);
+        initBlock();
       } else {
         addInvalidClass(baseId);
       }
 
       selectBoxInitialize(selectBlockId);
       selectBoxInitialize(INPUT_IDS["row"]);
-      
+
       if (val === BASE_OPTIONS[0]) {
         optionArray = Object.keys(BLOCK_DATA_FIRST);
       } else if (val === BASE_OPTIONS[1]) {
         optionArray = BLOCK_DATA_NET;
       } else if (val === BASE_OPTIONS[2]) {
-        optionArray = Object.keys(BLOCK_DATA_THIRD);  
+        optionArray = Object.keys(BLOCK_DATA_THIRD);
       }
 
       createOptions(selectBlockId, optionArray)
@@ -266,7 +251,8 @@ $(function () {
   }
 
   // ブロック選択項目初期処理
-  function initBlock() { 
+  function initBlock() {
+    releaseDisplay("#input-block");
     const blockId = INPUT_IDS["block"];
     $(blockId).change((e) => {
       const val = e.target.value;
@@ -274,24 +260,26 @@ $(function () {
       let data = [];
 
       //入力チェック
-      if(selectValid(val)) {
+      if (selectValid(val)) {
+        initRow_Number();
         removeInvalidClass(blockId);
       } else {
         addInvalidClass(blockId);
       }
 
       selectBoxInitialize(selectRowId);
-      
+      clearAllInputData();
+
       // 選択した席により列の項目を生成
       if (Object.keys(BLOCK_DATA_FIRST).includes(val)) {
         const [min, max] = BLOCK_DATA_FIRST[val];
-        data = createRowArray(min,max);
+        data = createRowArray(min, max);
       } else if (Object.keys(BLOCK_DATA_THIRD).includes(val)) {
         const [min, max] = BLOCK_DATA_THIRD[val];
         data = createRowArray(min, max);
       } else if (BLOCK_DATA_NET.includes(val)) {
         let min, max;
-        
+
         if (Object.keys(NET_BLOCK_NOT_DEFAULT_PATTERN).includes(val)) {
           [min, max] = NET_BLOCK_NOT_DEFAULT_PATTERN[val];
         } else {
@@ -300,36 +288,46 @@ $(function () {
         data = createRowArray(min, max);
       }
 
-      createOptions(selectRowId, data);  
+      createOptions(selectRowId, data);
     })
   }
 
-  // 列選択項目初期処理
-  function initRow() { 
+  // 列＆座席番号入力項目初期処理
+  function initRow_Number() {
+    releaseDisplay("#judge-btn");
+    $("#judge-btn").addClass("disabled");
+    releaseDisplay("#input-row");
+    releaseDisplay("#input-number");
+
     const rowId = INPUT_IDS["row"];
-    $(rowId).change((e) => {
-      const val = e.target.value;
+    const numberId = INPUT_IDS["number"];
+    const rowNumId = INPUT_IDS["row-number"];
+    let rowVal, numVal;
+    $(rowNumId).change((e) => {
+      const targetName = e.target.name;
+      if (targetName === "select_row") {
+        rowVal = e.target.value;
+      }
+      if (targetName === "input_number") {
+        numVal = e.target.value;
+      }
 
       //入力チェック
-      if(selectValid(val)) {
+      if (selectValid(rowVal)) {
         removeInvalidClass(rowId);
       } else {
         addInvalidClass(rowId);
+        $("#judge-btn").addClass("disabled");
       }
-    })
-  }
-
-  // 座席番号入力項目初期処理
-  function initNumber() { 
-    const numberId = INPUT_IDS["number"];
-    $(numberId).focusout((e) => {
-      const val = e.target.value;
-
-      //入力チェック
-      if(inputValid(val)) {
+      if (inputValid(numVal)) {
         removeInvalidClass(numberId);
       } else {
         addInvalidClass(numberId);
+        $("#judge-btn").addClass("disabled");
+      }
+      if (selectValid(rowVal) && inputValid(numVal)) {
+        $("#judge-btn").removeClass("disabled");
+        judgeDone();
       }
     })
   }
@@ -337,44 +335,44 @@ $(function () {
   // judgeボタン押下時
   // 各メンバーカラーごとの判定を作成してください。
   function judgeDone() {
-    $("#judge-btn").click(function() {
+    $("#judge-btn").click(function () {
       try {
         const seatType = $(INPUT_IDS["type"]).val();
-      
+
         // スタンド席以外
         if (seatType !== "other") {
           result("chika");
           return;
         }
-        
+
         // スタンド席選択・入力値取得
         const standSeatData = {
-          "base" : $(INPUT_IDS["base"]).val(),
-          "block" : $(INPUT_IDS["block"]).val(),
-          "row" : $(INPUT_IDS["row"]).val(),
-          "number" : $(INPUT_IDS["number"]).val()
+          "base": $(INPUT_IDS["base"]).val(),
+          "block": $(INPUT_IDS["block"]).val(),
+          "row": $(INPUT_IDS["row"]).val(),
+          "number": $(INPUT_IDS["number"]).val()
         };
-                
+
         // 未選択判別
         const unseletedCheck = Object.values(standSeatData).map(val => {
-          if (!val || val === DEFAULT_SELECT_OPTION){
+          if (!val || val === DEFAULT_SELECT_OPTION) {
             return true;
           } else {
             return false;
-          } 
+          }
         });
 
         if (unseletedCheck.includes(true)) {
           const ids = Object.keys(standSeatData);
-          for(i in unseletedCheck) {
-            if(unseletedCheck[i]) {
+          for (i in unseletedCheck) {
+            if (unseletedCheck[i]) {
               const id = ids[i];
               addInvalidClass(INPUT_IDS[id]);
             }
           }
           return;
         }
-        
+
         // スタンド席色分け
         const seatBlock = standSeatData["block"];
         const seatRow = Number(standSeatData["row"]);
@@ -396,11 +394,11 @@ $(function () {
         return x >= min && x <= max;
       };
 
-      for(key in colorSet) {
+      for (key in colorSet) {
         [min, max] = colorSet[key];
         if (between(row, min, max)) {
           return key;
-        } 
+        }
       }
       return "rangeout";
     };
@@ -408,8 +406,8 @@ $(function () {
     let colorSet = {};
 
     // 検索対象のブロック、色による色を設定
-    if (Object.keys(BLOCK_DATA_FIRST).includes(block) || 
-    Object.keys(BLOCK_DATA_THIRD).includes(block)) {
+    if (Object.keys(BLOCK_DATA_FIRST).includes(block) ||
+      Object.keys(BLOCK_DATA_THIRD).includes(block)) {
       if (block === "T1-T7" || block === "T2-T8") {
         colorSet = {
           "mari": [1, 4],
@@ -464,9 +462,9 @@ $(function () {
           };
         }
       }
-    } else{
+    } else {
       return "error";
-    } 
+    }
 
     return colorFiler(row, colorSet);
   }
@@ -517,7 +515,7 @@ $(function () {
 
     if (Object.keys(memberColorSet).includes(member)) {
       src = ICON_PATH_GEN(member);
-      ({color, text} = memberColorSet[member]);
+      ({ color, text } = memberColorSet[member]);
     } else {
       if (member === "error") {
         src = "./img/error.png";
