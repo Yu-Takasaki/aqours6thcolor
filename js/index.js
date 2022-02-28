@@ -116,7 +116,7 @@ $(function () {
   }
 
   // 検索ボタンを非活性
-  function disableButton() {
+  function buttonDisable() {
     $("#judge-btn").addClass("disabled");
   }
 
@@ -236,7 +236,7 @@ $(function () {
       if (selectValid(val)) {
         removeInvalidClass(baseId);
         initBlock();
-        disableButton();
+        buttonDisable();
       } 
 
       selectBoxInitialize(selectBlockId);
@@ -268,7 +268,7 @@ $(function () {
       if (selectValid(val)) {
         initRow_Number();
         removeInvalidClass(blockId);
-        disableButton();
+        buttonDisable();
       }
 
       selectBoxInitialize(selectRowId);
@@ -300,7 +300,7 @@ $(function () {
   // 列＆座席番号入力項目初期処理
   function initRow_Number() {
     releaseDisplay("#judge-btn");
-    disableButton();
+    buttonDisable();
     releaseDisplay("#input-row");
     releaseDisplay("#input-number");
 
@@ -321,12 +321,12 @@ $(function () {
       if (selectValid(rowVal)) {
         removeInvalidClass(rowId);
       } else {
-        disableButton();
+        buttonDisable();
       }
       if (inputValid(numVal)) {
         removeInvalidClass(numberId);
       } else {
-        disableButton();
+        buttonDisable();
       }
       if (selectValid(rowVal) && inputValid(numVal)) {
         $("#judge-btn").removeClass("disabled");
