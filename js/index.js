@@ -236,12 +236,12 @@ $(function () {
       if (selectValid(val)) {
         removeInvalidClass(baseId);
         initBlock();
-        buttonDisable();
-      } 
+      }
 
       selectBoxInitialize(selectBlockId);
       selectBoxInitialize(INPUT_IDS["row"]);
       clearAllInputData();
+      buttonDisable();
 
       if (val === BASE_OPTIONS[0]) {
         optionArray = Object.keys(BLOCK_DATA_FIRST);
@@ -268,12 +268,12 @@ $(function () {
       if (selectValid(val)) {
         initRow_Number();
         removeInvalidClass(blockId);
-        buttonDisable();
       }
 
       selectBoxInitialize(selectRowId);
       clearAllInputData();
       clearAllValid();
+      buttonDisable();
 
       // 選択した席により列の項目を生成
       if (Object.keys(BLOCK_DATA_FIRST).includes(val)) {
