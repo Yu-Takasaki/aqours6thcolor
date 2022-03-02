@@ -244,11 +244,11 @@ $(function () {
       buttonDisable();
 
       if (val === BASE_OPTIONS[0]) {
-        optionArray = Object.keys(BLOCK_DATA_FIRST);
+        optionArray = Object.keys(BLOCK_DATA_FIRST).sort();
       } else if (val === BASE_OPTIONS[1]) {
         optionArray = BLOCK_DATA_NET;
       } else if (val === BASE_OPTIONS[2]) {
-        optionArray = Object.keys(BLOCK_DATA_THIRD);
+        optionArray = Object.keys(BLOCK_DATA_THIRD).sort();
       }
 
       createOptions(selectBlockId, optionArray)
