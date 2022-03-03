@@ -1,7 +1,8 @@
 const hashTags = [
   "Aqours",
-  "Aqours_SUNNY_Day1",
-  "Aqours_SUNNY_Day2",
+  // "Aqours_SUNNY_Day1",
+  // "Aqours_SUNNY_Day2",
+  "Aqoursrainbow",
   "lovelive"
 ];
 
