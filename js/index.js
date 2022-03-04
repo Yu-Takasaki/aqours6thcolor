@@ -8,7 +8,7 @@ $(function () {
   const DEFAULT_SELECT_OPTION = "選択してください";
 
   // 類別区分定数
-  const BASE_OPTIONS = ["1塁（ライトスタンド）", "ネット裏", "3塁（レフトスタンド）"];
+  const BASE_OPTIONS = ["1塁（ライトスタンド）", "ネット裏(スタンド200番台)", "3塁（レフトスタンド）"];
 
   // 入力フォームのIDオブジェクト
   const INPUT_IDS = {
