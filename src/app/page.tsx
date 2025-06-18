@@ -8,6 +8,9 @@ import RowNumberSelector from "./_components/RowNumberSelector";
 import ResultModal from "./_components/ResultModal";
 import InfoAccordion from "./_components/InfoAccordion";
 import { findColor, getResult } from "./lib/seatData";
+import LanguageChip from "./_components/LanguageChip";
+import ja from './locales/ja';
+import en from './locales/en';
 
 export default function Home() {
   const [seatType, setSeatType] = useState("");
@@ -17,6 +20,16 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [result, setResult] = useState({ color: "", member: "", text: "", image: "" });
   const [errors, setErrors] = useState<Record<string, boolean>>({});
+  const [locale, setLocale] = useState('ja');
+  const messages = React.useMemo(() => {
+    switch (locale) {
+      case 'en':
+        return en;
+      case 'ja':
+      default:
+        return ja;
+    }
+  }, [locale]);
 
   // バリデーション関数
   const validateField = (value: string, fieldName: string): boolean => {
@@ -118,12 +131,12 @@ export default function Home() {
   // 検索ボタンの有効/無効状態
   const isSearchButtonEnabled = () => {
     if (!seatType) return false;
-    
+
     if (seatType === "other") {
-      return Boolean(base && block && row && 
-             !errors.base && !errors.block && !errors.row);
+      return Boolean(base && block && row &&
+        !errors.base && !errors.block && !errors.row);
     }
-    
+
     return true; // アリーナ、フィールドシートの場合は常に有効
   };
 
@@ -133,40 +146,49 @@ export default function Home() {
         <article className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-normal mt-3 pb-2 border-b-4 border-gray-600 rounded-lg">
             <i className="fas fa-search mr-2"></i>
-            担当色検索inベルーナドーム
+            {messages['title']}
           </h2>
-          
-          <div className="mt-4">
-            <InfoAccordion />
-            
+
+          {/* 言語切替チップ 右上配置 */}
+          <div className="mt-2">
+            <LanguageChip locale={locale} onChange={setLocale} />
+          </div>
+
+          <div className="mt-2">
+            <InfoAccordion messages={messages} />
+
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <SeatTypeSelector 
-                  value={seatType} 
-                  onChange={handleSeatTypeChange} 
+                <SeatTypeSelector
+                  value={seatType}
+                  onChange={handleSeatTypeChange}
+                  messages={messages}
                 />
                 {seatType === "other" && (
-                  <BaseSelector 
-                    value={base} 
+                  <BaseSelector
+                    value={base}
                     onChange={handleBaseChange}
                     seatType={seatType}
+                    messages={messages}
                   />
                 )}
                 {seatType === "other" && base && (
-                  <BlockSelector 
-                    value={block} 
+                  <BlockSelector
+                    value={block}
                     onChange={handleBlockChange}
                     seatType={seatType}
                     base={base}
+                    messages={messages}
                   />
                 )}
                 {seatType === "other" && base && block && (
-                  <RowNumberSelector 
+                  <RowNumberSelector
                     row={row}
                     onRowChange={handleRowChange}
                     seatType={seatType}
                     base={base}
                     block={block}
+                    messages={messages}
                   />
                 )}
               </div>
@@ -175,17 +197,16 @@ export default function Home() {
             {/* 検索ボタン */}
             <div className="mt-4 mb-8">
               <div className="w-full">
-                <button 
-                  className={`w-full py-2 px-6 rounded-lg text-lg font-semibold transition-all duration-200 flex items-center justify-center ${
-                    isSearchButtonEnabled()
+                <button
+                  className={`w-full py-2 px-6 rounded-lg text-lg font-semibold transition-all duration-200 flex items-center justify-center ${isSearchButtonEnabled()
                       ? 'bg-gradient-to-r from-red-500 to-orange-500 text-white hover:from-red-600 hover:to-orange-600'
                       : 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  }`}
+                    }`}
                   onClick={handleSearch}
                   disabled={!isSearchButtonEnabled()}
                 >
                   <i className="fas fa-search mr-2"></i>
-                  <span>担当色を見る！</span>
+                  <span>{messages['search_button']}</span>
                 </button>
               </div>
             </div>
@@ -193,10 +214,11 @@ export default function Home() {
         </article>
       </div>
 
-      <ResultModal 
+      <ResultModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         result={result}
+        messages={messages}
       />
     </div>
   );

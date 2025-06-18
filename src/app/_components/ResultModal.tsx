@@ -9,9 +9,10 @@ interface ResultModalProps {
     text: string;
     image: string;
   };
+  messages: Record<string, string>;
 }
 
-export default function ResultModal({ isOpen, onClose, result }: ResultModalProps) {
+export default function ResultModal({ isOpen, onClose, result, messages }: ResultModalProps) {
   const [show, setShow] = useState(isOpen);
   const [visible, setVisible] = useState(isOpen);
 
@@ -35,7 +36,7 @@ export default function ResultModal({ isOpen, onClose, result }: ResultModalProp
     >
       <div className={`bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="text-center">
-          <h3 className="text-xl font-semibold text-white mb-4">あなたの色は...</h3>
+          <h3 className="text-xl font-semibold text-white mb-4">{messages['your_color_is']}</h3>
           <div className="mb-4">
             <img 
               src={result.image} 
@@ -53,7 +54,7 @@ export default function ResultModal({ isOpen, onClose, result }: ResultModalProp
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
             onClick={onClose}
           >
-            閉じる
+            {messages['close']}
           </button>
         </div>
       </div>
