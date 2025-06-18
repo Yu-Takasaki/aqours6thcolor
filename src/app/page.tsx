@@ -140,37 +140,36 @@ export default function Home() {
             <InfoAccordion />
             
             <div className="space-y-4">
-              <SeatTypeSelector 
-                value={seatType} 
-                onChange={handleSeatTypeChange} 
-              />
-              
-              {seatType === "other" && (
-                <BaseSelector 
-                  value={base} 
-                  onChange={handleBaseChange}
-                  seatType={seatType}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <SeatTypeSelector 
+                  value={seatType} 
+                  onChange={handleSeatTypeChange} 
                 />
-              )}
-              
-              {seatType === "other" && base && (
-                <BlockSelector 
-                  value={block} 
-                  onChange={handleBlockChange}
-                  seatType={seatType}
-                  base={base}
-                />
-              )}
-              
-              {seatType === "other" && base && block && (
-                <RowNumberSelector 
-                  row={row}
-                  onRowChange={handleRowChange}
-                  seatType={seatType}
-                  base={base}
-                  block={block}
-                />
-              )}
+                {seatType === "other" && (
+                  <BaseSelector 
+                    value={base} 
+                    onChange={handleBaseChange}
+                    seatType={seatType}
+                  />
+                )}
+                {seatType === "other" && base && (
+                  <BlockSelector 
+                    value={block} 
+                    onChange={handleBlockChange}
+                    seatType={seatType}
+                    base={base}
+                  />
+                )}
+                {seatType === "other" && base && block && (
+                  <RowNumberSelector 
+                    row={row}
+                    onRowChange={handleRowChange}
+                    seatType={seatType}
+                    base={base}
+                    block={block}
+                  />
+                )}
+              </div>
             </div>
 
             {/* 検索ボタン */}

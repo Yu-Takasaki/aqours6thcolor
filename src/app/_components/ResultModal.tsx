@@ -35,6 +35,7 @@ export default function ResultModal({ isOpen, onClose, result }: ResultModalProp
     >
       <div className={`bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="text-center">
+          <h3 className="text-xl font-semibold text-white mb-4">あなたの色は...</h3>
           <div className="mb-4">
             <img 
               src={result.image} 
