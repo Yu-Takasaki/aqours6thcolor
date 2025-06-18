@@ -34,6 +34,12 @@ export default function Home() {
     setRow("");
     setNumber("");
     setErrors({});
+    if (value === "arena" || value === "field") {
+      // memberは"chika"でOKなら
+      const resultData = getResult("chika");
+      setResult(resultData);
+      setShowModal(true);
+    }
   };
 
   // 塁側変更時の処理
@@ -63,59 +69,26 @@ export default function Home() {
   const handleRowChange = (value: string) => {
     setRow(value);
     setErrors(prev => ({ ...prev, row: !validateField(value, "row") }));
+    // 「それ以外」の場合、列が選択されたら即結果を表示
+    if (seatType === "other" && value) {
+      try {
+        const seatRow = Number(value);
+        const member = findColor(block, seatRow);
+        const resultData = getResult(member);
+        setResult(resultData);
+        setShowModal(true);
+      } catch (error) {
+        const errorResult = getResult("error");
+        setResult(errorResult);
+        setShowModal(true);
+      }
+    }
   };
 
   // 番号変更時の処理
   const handleNumberChange = (value: string) => {
     setNumber(value);
     setErrors(prev => ({ ...prev, number: !validateField(value, "number") }));
-  };
-
-  // 検索処理
-  const handleSearch = () => {
-    // バリデーション
-    const isSeatTypeValid = validateField(seatType, "seatType");
-    const isBaseValid = seatType === "other" ? validateField(base, "base") : true;
-    const isBlockValid = seatType === "other" ? validateField(block, "block") : true;
-    const isRowValid = seatType === "other" ? validateField(row, "row") : true;
-    const isNumberValid = seatType === "other" ? validateField(number, "number") : true;
-
-    if (!isSeatTypeValid || !isBaseValid || !isBlockValid || !isRowValid || !isNumberValid) {
-      return;
-    }
-
-    try {
-      let member: string;
-
-      // スタンド席以外（アリーナ、フィールドシート）
-      if (seatType !== "other") {
-        member = "chika"; // 高海千歌（みかん色）
-      } else {
-        // スタンド席の場合
-        const seatRow = Number(row);
-        member = findColor(block, seatRow);
-      }
-
-      const resultData = getResult(member);
-      setResult(resultData);
-      setShowModal(true);
-    } catch (error) {
-      const errorResult = getResult("error");
-      setResult(errorResult);
-      setShowModal(true);
-    }
-  };
-
-  // 検索ボタンの有効/無効状態
-  const isSearchButtonEnabled = () => {
-    if (!seatType) return false;
-    
-    if (seatType === "other") {
-      return Boolean(base && block && row && number && 
-             !errors.base && !errors.block && !errors.row && !errors.number);
-    }
-    
-    return true; // アリーナ、フィールドシートの場合は常に有効
   };
 
   return (
@@ -156,9 +129,7 @@ export default function Home() {
               {seatType === "other" && base && block && (
                 <RowNumberSelector 
                   row={row}
-                  number={number}
                   onRowChange={handleRowChange}
-                  onNumberChange={handleNumberChange}
                   seatType={seatType}
                   base={base}
                   block={block}
@@ -167,7 +138,7 @@ export default function Home() {
             </div>
 
             {/* 検索ボタン */}
-            <div className="mt-8 mb-6">
+            {/* <div className="mt-8 mb-6">
               <div className="w-full">
                 <button 
                   className={`w-full py-4 px-6 rounded-lg text-lg font-semibold transition-all duration-200 flex items-center justify-center ${
@@ -182,7 +153,7 @@ export default function Home() {
                   <span>担当色を見る！</span>
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </article>
       </div>

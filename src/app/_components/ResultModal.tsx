@@ -22,7 +22,7 @@ export default function ResultModal({ isOpen, onClose, result }: ResultModalProp
             <img 
               src={result.image} 
               alt={result.member}
-              className="w-32 h-32 mx-auto rounded-full object-cover"
+              className="w-32 h-32 mx-auto rounded-full object-contain"
             />
           </div>
           <h2 className="text-2xl font-bold text-white mb-2">
