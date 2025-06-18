@@ -20,7 +20,7 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [result, setResult] = useState({ color: "", member: "", text: "", image: "" });
   const [errors, setErrors] = useState<Record<string, boolean>>({});
-  const [locale, setLocale] = useState('ja');
+  const [locale, setLocale] = useState<'ja' | 'en'>('ja');
   const messages = React.useMemo(() => {
     switch (locale) {
       case 'en':
@@ -47,7 +47,7 @@ export default function Home() {
     setErrors({});
     if (value === "arena" || value === "field") {
       // memberは"chika"でOKなら
-      const resultData = getResult("chika");
+      const resultData = getResult("chika", locale);
       setResult(resultData);
       setShowModal(true);
     }
@@ -83,11 +83,11 @@ export default function Home() {
       try {
         const seatRow = Number(value);
         const member = findColor(block, seatRow);
-        const resultData = getResult(member);
+        const resultData = getResult(member, locale);
         setResult(resultData);
         setShowModal(true);
       } catch (error) {
-        const errorResult = getResult("error");
+        const errorResult = getResult("error", locale);
         setResult(errorResult);
         setShowModal(true);
       }
@@ -118,11 +118,11 @@ export default function Home() {
         member = findColor(block, seatRow);
       }
 
-      const resultData = getResult(member);
+      const resultData = getResult(member, locale);
       setResult(resultData);
       setShowModal(true);
     } catch (error) {
-      const errorResult = getResult("error");
+      const errorResult = getResult("error", locale);
       setResult(errorResult);
       setShowModal(true);
     }
@@ -151,7 +151,7 @@ export default function Home() {
 
           {/* 言語切替チップ 右上配置 */}
           <div className="mt-2">
-            <LanguageChip locale={locale} onChange={setLocale} />
+            <LanguageChip locale={locale} onChange={(l) => setLocale(l as 'ja' | 'en')} />
           </div>
 
           <div className="mt-2">

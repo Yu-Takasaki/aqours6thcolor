@@ -43,51 +43,55 @@ export const BLOCK_DATA_THIRD = {
 };
 
 // メンバーカラーセット
-export const MEMBER_COLOR_SET = {
+export const MEMBER_COLOR_SET: Record<string, {
+  color: string;
+  text: Record<'ja' | 'en', string>;
+  member: Record<'ja' | 'en', string>;
+}> = {
   "chika": {
     "color": "#ff7f32",
-    "text": "みかん色",
-    "member": "高海千歌",
+    "text": { ja: "みかん色", en: "Mikan Orange" },
+    "member": { ja: "高海千歌", en: "Chika Takami" },
   },
   "riko": {
     "color": "#FB6372",
-    "text": "サクラピンク",
-    "member": "桜内梨子",
+    "text": { ja: "サクラピンク", en: "Sakura Pink" },
+    "member": { ja: "桜内梨子", en: "Riko Sakurauchi" },
   },
   "kanan": {
     "color": "#00c7b1",
-    "text": "エメラルドグリーン",
-    "member": "松浦果南",
+    "text": { ja: "エメラルドグリーン", en: "Emerald Green" },
+    "member": { ja: "松浦果南", en: "Kanan Matsuura" },
   },
   "dia": {
     "color": "#e4002b",
-    "text": "レッド",
-    "member": "黒澤ダイヤ",
+    "text": { ja: "レッド", en: "Red" },
+    "member": { ja: "黒澤ダイヤ", en: "Dia Kurosawa" },
   },
   "you": {
     "color": "#00b5e2",
-    "text": "ライトブルー",
-    "member": "渡辺曜",
+    "text": { ja: "ライトブルー", en: "Light Blue" },
+    "member": { ja: "渡辺曜", en: "You Watanabe" },
   },
   "yohane": {
     "color": "#d4d4d4",
-    "text": "ホワイト",
-    "member": "津島善子",
+    "text": { ja: "ホワイト", en: "White" },
+    "member": { ja: "津島善子", en: "Yoshiko Tsushima" },
   },
   "maru": {
     "color": "#ffcd00",
-    "text": "イエロー",
-    "member": "国木田花丸",
+    "text": { ja: "イエロー", en: "Yellow" },
+    "member": { ja: "国木田花丸", en: "Hanamaru Kunikida" },
   },
   "mari": {
     "color": "#9b26b6",
-    "text": "バイオレット",
-    "member": "小原鞠莉",
+    "text": { ja: "バイオレット", en: "Violet" },
+    "member": { ja: "小原鞠莉", en: "Mari Ohara" },
   },
   "ruby": {
     "color": "#e93cac",
-    "text": "ピンク",
-    "member": "黒澤ルビィ",
+    "text": { ja: "ピンク", en: "Pink" },
+    "member": { ja: "黒澤ルビィ", en: "Ruby Kurosawa" },
   },
 };
 
@@ -251,37 +255,39 @@ export function getRowOptions(seatType: string, base: string, block: string): st
 }
 
 // 結果を取得する関数
-export function getResult(member: string) {
+export function getResult(member: string, locale: 'ja' | 'en') {
   if (Object.keys(MEMBER_COLOR_SET).includes(member)) {
     const result = MEMBER_COLOR_SET[member as keyof typeof MEMBER_COLOR_SET];
     return {
       color: result.color,
-      member: result.member,
-      text: result.text,
+      member: result.member[locale] ?? result.member.ja,
+      text: result.text[locale] ?? result.text.ja,
       image: `/img/member_icon/${member}.png`
     };
   } else {
     if (member === "error") {
       return {
         color: "#ff0000",
-        member: "エラー",
-        text: "エラー",
+        member: locale === 'en' ? "Error" : "エラー",
+        text: locale === 'en' ? "Error" : "エラー",
         image: "/img/error.png"
       };
     }
     if (member === "rangeout") {
       return {
         color: "#ff0000",
-        member: "範囲外",
-        text: "そこに座席はありませんわ。もう一度自分の座席を確認してごらんなさい。",
+        member: locale === 'en' ? "Out of range" : "範囲外",
+        text: locale === 'en'
+          ? "There is no seat there. Please check your seat again."
+          : "そこに座席はありませんわ。もう一度自分の座席を確認してごらんなさい。",
         image: "/img/error.png"
       };
     }
   }
   return {
     color: "#ff0000",
-    member: "エラー",
-    text: "エラー",
+    member: locale === 'en' ? "Error" : "エラー",
+    text: locale === 'en' ? "Error" : "エラー",
     image: "/img/error.png"
   };
 } 
