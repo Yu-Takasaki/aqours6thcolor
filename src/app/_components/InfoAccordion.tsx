@@ -6,7 +6,7 @@ export default function InfoAccordion() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-gray-800 rounded-lg border border-gray-700">
+    <div className="bg-gray-800 rounded-lg border border-gray-700 mb-4">
       <button
         className="w-full px-6 py-4 text-left font-semibold flex items-center justify-between hover:bg-gray-700 transition-colors"
         onClick={() => setIsOpen(!isOpen)}

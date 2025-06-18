@@ -12,10 +12,10 @@ export default function BlockSelector({ value, onChange, seatType, base }: Block
   const blockOptions = getBlockOptions(seatType, base);
 
   return (
-    <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
-      <h4 className="text-xl font-semibold text-center mb-4">ブロック番号</h4>
+    <div className="bg-gray-800 rounded-lg border border-gray-700 p-4">
+      <h4 className="text-xl font-semibold text-center mb-3">ブロック番号</h4>
       <select 
-        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={!base}

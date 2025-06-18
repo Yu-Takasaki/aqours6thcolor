@@ -91,6 +91,52 @@ export default function Home() {
     setErrors(prev => ({ ...prev, number: !validateField(value, "number") }));
   };
 
+  // 検索処理
+  const handleSearch = () => {
+    // バリデーション
+    const isSeatTypeValid = validateField(seatType, "seatType");
+    const isBaseValid = seatType === "other" ? validateField(base, "base") : true;
+    const isBlockValid = seatType === "other" ? validateField(block, "block") : true;
+    const isRowValid = seatType === "other" ? validateField(row, "row") : true;
+
+    if (!isSeatTypeValid || !isBaseValid || !isBlockValid || !isRowValid) {
+      return;
+    }
+
+    try {
+      let member: string;
+
+      // スタンド席以外（アリーナ、フィールドシート）
+      if (seatType !== "other") {
+        member = "chika"; // 高海千歌（みかん色）
+      } else {
+        // スタンド席の場合
+        const seatRow = Number(row);
+        member = findColor(block, seatRow);
+      }
+
+      const resultData = getResult(member);
+      setResult(resultData);
+      setShowModal(true);
+    } catch (error) {
+      const errorResult = getResult("error");
+      setResult(errorResult);
+      setShowModal(true);
+    }
+  };
+
+  // 検索ボタンの有効/無効状態
+  const isSearchButtonEnabled = () => {
+    if (!seatType) return false;
+    
+    if (seatType === "other") {
+      return Boolean(base && block && row && 
+             !errors.base && !errors.block && !errors.row);
+    }
+    
+    return true; // アリーナ、フィールドシートの場合は常に有効
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
@@ -100,10 +146,10 @@ export default function Home() {
             担当色検索inベルーナドーム
           </h2>
           
-          <div className="mt-6">
+          <div className="mt-4">
             <InfoAccordion />
             
-            <div className="space-y-6">
+            <div className="space-y-4">
               <SeatTypeSelector 
                 value={seatType} 
                 onChange={handleSeatTypeChange} 
@@ -138,10 +184,10 @@ export default function Home() {
             </div>
 
             {/* 検索ボタン */}
-            {/* <div className="mt-8 mb-6">
+            <div className="mt-4 mb-8">
               <div className="w-full">
                 <button 
-                  className={`w-full py-4 px-6 rounded-lg text-lg font-semibold transition-all duration-200 flex items-center justify-center ${
+                  className={`w-full py-2 px-6 rounded-lg text-lg font-semibold transition-all duration-200 flex items-center justify-center ${
                     isSearchButtonEnabled()
                       ? 'bg-gradient-to-r from-red-500 to-orange-500 text-white hover:from-red-600 hover:to-orange-600'
                       : 'bg-gray-600 text-gray-400 cursor-not-allowed'
@@ -153,7 +199,7 @@ export default function Home() {
                   <span>担当色を見る！</span>
                 </button>
               </div>
-            </div> */}
+            </div>
           </div>
         </article>
       </div>

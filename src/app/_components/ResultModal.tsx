@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface ResultModalProps {
   isOpen: boolean;
@@ -12,11 +12,28 @@ interface ResultModalProps {
 }
 
 export default function ResultModal({ isOpen, onClose, result }: ResultModalProps) {
-  if (!isOpen) return null;
+  const [show, setShow] = useState(isOpen);
+  const [visible, setVisible] = useState(isOpen);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShow(true);
+      setTimeout(() => setVisible(true), 10); // 10msでopacity:1に
+    } else {
+      setVisible(false);
+      const timer = setTimeout(() => setShow(false), 500); // 0.5秒後にDOM削除
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4">
+    <div
+      className={`fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-500 ${visible ? 'opacity-100 bg-black bg-opacity-50' : 'opacity-0 bg-black bg-opacity-0'}`}
+      style={{ pointerEvents: visible ? 'auto' : 'none' }}
+    >
+      <div className={`bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="text-center">
           <div className="mb-4">
             <img 
