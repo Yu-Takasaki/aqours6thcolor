@@ -1,118 +1,36 @@
-# Aqours Rainbow in Aqours 6th LoveLive! BELLUNA DOME
-## 担当色検索アプリ
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-### 基本仕様
-- 持っているチケットに記載の座席番号を入力or選択
-- 検索をかけることで担当色をお知らせ
-- 結果はTwitterでシェアすることが可能(任意選択)
+## Getting Started
 
-### Aqours 6th 要件
-1. ベルーナドームの座席種別に対応させる
-2. 担当色の列ごとに判定を分ける
-3. シェア機能などは基本的に実装する
+First, run the development server:
 
-### メットライフドーム(ベルーナドーム)の仕様
-メットライフドームは2021年に大幅な改修工事が行われ、座席の番号の振り方が変更された。
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-改修後のライブライブのイベントでは虹ヶ咲3rdが当たるため、以下の情報は虹ヶ咲3rdを基準に決めてある。
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-#### 使用される(であろう)座席は以下の通り
-- スタンド席
-  - 1塁側
-    - 101~184ブロック
-    - 214~226ブロック
-    - フィールドシート
-      - F1
-      - F3
-      - F5
-      - F7
-      - F9
-    - 特殊席(恐らく関係者席)
-      - T1
-      - T3
-      - T5
-      - T7
-      - L1
-      - L3
-      - L5
-      - L7
-      - L9
-      - D1
-      - D3
-      - D5
-      - D7
-      - D9
-  - 3塁側
-    - 301~384ブロック
-    - 200~213ブロック
-    - フィールドシート
-      - F2
-      - F4
-      - F6
-      - F8
-      - F10
-    - 特殊席(恐らく関係者席)
-      - T2
-      - T4
-      - T6
-      - T8
-      - L2
-      - L4
-      - L6
-      - L8
-      - L10
-      - D2
-      - D4
-      - D6
-      - D8
-      - D10
-- アリーナ
-- 立見席
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## チケットへの記載方法
-虹ヶ咲3rdを準拠すると以下のように記載される。
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- アリーナ
-　　- 座席番号： アリーナ [ブロック番号] [列番号] [座席番号]
-- スタンド
-　　- 座席番号： [１塁/3塁/ネット裏/フィールドシート] [ブロック番号] [列番号] [座席番号]
+## Learn More
 
-確約はできないが上記のように券面に記載される予想。
+To learn more about Next.js, take a look at the following resources:
 
-## 座席の色分けについて
-座席の色分けは以下のファイルを参照。
-これをもとに条件を切り替えていく
-参考座席表：https://zaseki.music-mdata.com/9886/1
-担当色について： https://docs.google.com/spreadsheets/d/1RZ0jYB3hUZEeU8aeSze8GK5OLU8pBR-iSgFkyGO5EAQ/edit?usp=sharing
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 公開について
-公開はGithub pageを利用し公開後、github pageのURLをホームページにiframeで埋め込んで使用する。
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-# 開発ルール(暫定)
-## ブランチについて
-本プロジェクトでは主に以下のブランチを使用する
+## Deploy on Vercel
 
-- master
-  - 本番ブランチ。
-- feature/staging
-  - STGブランチ。テスト環境。基本的にローカルテストで十分。
-- feature/hogehoge
-  - devブランチ。名前はわかれば何でもいいです。
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## 変数名名ルール
-- 基本的にスネークケース
-- 関数名はキャメルケース
-
-これ以外は特に指定しません。
-必要があれば随時相談でお願いします。
-
-## リリースについて
-### 本番反映日
-2022/03/03 18:00予定
-
-### STG最終確定
-2022/03/01 22:00
-
-以降テストおよび随時微修正など予定
-
-ゆるりと行きましょう。
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
