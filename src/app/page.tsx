@@ -14,7 +14,6 @@ export default function Home() {
   const [base, setBase] = useState("");
   const [block, setBlock] = useState("");
   const [row, setRow] = useState("");
-  const [number, setNumber] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [result, setResult] = useState({ color: "", member: "", text: "", image: "" });
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -32,7 +31,6 @@ export default function Home() {
     setBase("");
     setBlock("");
     setRow("");
-    setNumber("");
     setErrors({});
     if (value === "arena" || value === "field") {
       // memberは"chika"でOKなら
@@ -47,7 +45,6 @@ export default function Home() {
     setBase(value);
     setBlock("");
     setRow("");
-    setNumber("");
     setErrors({});
     if (value) {
       validateField(value, "base");
@@ -58,7 +55,6 @@ export default function Home() {
   const handleBlockChange = (value: string) => {
     setBlock(value);
     setRow("");
-    setNumber("");
     setErrors({});
     if (value) {
       validateField(value, "block");
@@ -83,12 +79,6 @@ export default function Home() {
         setShowModal(true);
       }
     }
-  };
-
-  // 番号変更時の処理
-  const handleNumberChange = (value: string) => {
-    setNumber(value);
-    setErrors(prev => ({ ...prev, number: !validateField(value, "number") }));
   };
 
   // 検索処理
