@@ -87,6 +87,7 @@ export default function Home() {
         setResult(resultData);
         setShowModal(true);
       } catch (error) {
+        console.error(error);
         const errorResult = getResult("error", locale);
         setResult(errorResult);
         setShowModal(true);
@@ -122,6 +123,7 @@ export default function Home() {
       setResult(resultData);
       setShowModal(true);
     } catch (error) {
+      console.error(error);
       const errorResult = getResult("error", locale);
       setResult(errorResult);
       setShowModal(true);
