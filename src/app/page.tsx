@@ -171,6 +171,7 @@ export default function Home() {
                     onChange={handleBaseChange}
                     seatType={seatType}
                     messages={messages}
+                    locale={locale}
                   />
                 )}
                 {seatType === "other" && base && (
@@ -180,6 +181,7 @@ export default function Home() {
                     seatType={seatType}
                     base={base}
                     messages={messages}
+                    locale={locale}
                   />
                 )}
                 {seatType === "other" && base && block && (

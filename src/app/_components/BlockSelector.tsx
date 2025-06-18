@@ -7,10 +7,11 @@ interface BlockSelectorProps {
   seatType: string;
   base: string;
   messages: Record<string, string>;
+  locale: 'ja' | 'en';
 }
 
-export default function BlockSelector({ value, onChange, seatType, base, messages }: BlockSelectorProps) {
-  const blockOptions = getBlockOptions(seatType, base);
+export default function BlockSelector({ value, onChange, seatType, base, messages, locale }: BlockSelectorProps) {
+  const blockOptions = getBlockOptions(seatType, base, locale);
 
   return (
     <div className="bg-gray-800 rounded-lg border border-gray-700 p-4">

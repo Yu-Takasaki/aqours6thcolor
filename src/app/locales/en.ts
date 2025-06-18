@@ -12,6 +12,7 @@ const en = {
   "select_row": "Please select a row.",
   "close": "Close",
   "standing_title": "[For Standing Seats]",
-  "standing_body": "For standing seats, the seat number rules are unclear, so it is difficult to specify a detailed color for this AqoursRainbow.\nTherefore, for standing seats, please follow the color of the block in front of you."
+  "standing_body": "For standing seats, the seat number rules are unclear, so it is difficult to specify a detailed color for this AqoursRainbow.\nTherefore, for standing seats, please follow the color of the block in front of you.",
+  "base_note": "Block numbers in the 200s are behind the net."
 };
 export default en; 

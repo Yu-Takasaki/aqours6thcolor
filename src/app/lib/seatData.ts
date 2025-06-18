@@ -16,7 +16,11 @@ export function getSeatTypeOptions(locale: 'ja' | 'en') {
 }
 
 // 類別区分定数
-export const BASE_OPTIONS = ["1塁（ライトスタンド）", "ネット裏(スタンド200番台)", "3塁（レフトスタンド）"];
+export const BASE_OPTIONS: Record<string, Record<'ja' | 'en', string>> = {
+  "first": { ja: "1塁（ライトスタンド）", en: "1st Base (Right Stand)" },
+  "net": { ja: "ネット裏(スタンド200番台)", en: "Behind Net (Stand 200s)" },
+  "third": { ja: "3塁（レフトスタンド）", en: "3rd Base (Left Stand)" }
+};
 
 // ブロック区分定数-1塁側
 export const BLOCK_DATA_FIRST = {
@@ -202,19 +206,19 @@ export function findColor(block: string, row: number): string {
 }
 
 // 座席タイプに応じた塁側オプションを取得
-export function getBaseOptions(seatType: string): string[] {
+export function getBaseOptions(seatType: string, locale: 'ja' | 'en'): string[] {
   if (seatType === "arena") {
     return ["100番台", "200番台", "300番台"];
   } else if (seatType === "field") {
     return ["100番台", "200番台"];
   } else if (seatType === "other") {
-    return BASE_OPTIONS;
+    return Object.values(BASE_OPTIONS).map(option => option[locale] ?? option.ja);
   }
   return [];
 }
 
 // 塁側に応じたブロックオプションを取得
-export function getBlockOptions(seatType: string, base: string): string[] {
+export function getBlockOptions(seatType: string, base: string, locale: 'ja' | 'en'): string[] {
   if (!seatType || !base) return [];
   
   if (seatType === "arena") {
@@ -222,11 +226,13 @@ export function getBlockOptions(seatType: string, base: string): string[] {
   } else if (seatType === "field") {
     return ["F"];
   } else if (seatType === "other") {
-    if (base === BASE_OPTIONS[0]) {
+    // 多言語対応のため、日本語の値で比較
+    const baseJaValues = Object.values(BASE_OPTIONS).map(option => option[locale] ?? option.ja);
+    if (base === baseJaValues[0]) {
       return Object.keys(BLOCK_DATA_FIRST).sort();
-    } else if (base === BASE_OPTIONS[1]) {
+    } else if (base === baseJaValues[1]) {
       return BLOCK_DATA_NET;
-    } else if (base === BASE_OPTIONS[2]) {
+    } else if (base === baseJaValues[2]) {
       return Object.keys(BLOCK_DATA_THIRD).sort();
     }
   }
