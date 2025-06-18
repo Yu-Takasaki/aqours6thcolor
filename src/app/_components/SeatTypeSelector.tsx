@@ -1,12 +1,16 @@
 import React from "react";
+import { getSeatTypeOptions } from "../lib/seatData";
 
 interface SeatTypeSelectorProps {
   value: string;
   onChange: (value: string) => void;
   messages: Record<string, string>;
+  locale: 'ja' | 'en';
 }
 
-export default function SeatTypeSelector({ value, onChange, messages }: SeatTypeSelectorProps) {
+export default function SeatTypeSelector({ value, onChange, messages, locale }: SeatTypeSelectorProps) {
+  const seatTypeOptions = getSeatTypeOptions(locale);
+
   return (
     <div className="bg-gray-800 rounded-lg border border-gray-700 p-4">
       <h4 className="text-xl font-semibold text-center mb-3">{messages['seat_type']}</h4>
@@ -16,9 +20,11 @@ export default function SeatTypeSelector({ value, onChange, messages }: SeatType
         onChange={(e) => onChange(e.target.value)}
       >
         <option value="">{messages['select']}</option>
-        <option value="arena">アリーナ</option>
-        <option value="field">フィールドシート(スタンドFブロック)</option>
-        <option value="other">上記以外</option>
+        {seatTypeOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
     </div>
   );

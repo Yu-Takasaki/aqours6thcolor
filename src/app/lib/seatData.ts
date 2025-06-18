@@ -1,5 +1,20 @@
 // 座席データと色分けロジック
 
+// 座席タイプの選択肢
+export const SEAT_TYPE_OPTIONS: Record<string, Record<'ja' | 'en', string>> = {
+  "arena": { ja: "アリーナ", en: "Arena" },
+  "field": { ja: "フィールドシート(スタンドFブロック)", en: "Field Sheet (Stand F Block)" },
+  "other": { ja: "上記以外", en: "Others" }
+};
+
+// 座席タイプの選択肢を取得する関数
+export function getSeatTypeOptions(locale: 'ja' | 'en') {
+  return Object.entries(SEAT_TYPE_OPTIONS).map(([value, labels]) => ({
+    value,
+    label: labels[locale] ?? labels.ja
+  }));
+}
+
 // 類別区分定数
 export const BASE_OPTIONS = ["1塁（ライトスタンド）", "ネット裏(スタンド200番台)", "3塁（レフトスタンド）"];
 

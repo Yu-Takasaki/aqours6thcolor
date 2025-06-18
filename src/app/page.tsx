@@ -163,6 +163,7 @@ export default function Home() {
                   value={seatType}
                   onChange={handleSeatTypeChange}
                   messages={messages}
+                  locale={locale}
                 />
                 {seatType === "other" && (
                   <BaseSelector
