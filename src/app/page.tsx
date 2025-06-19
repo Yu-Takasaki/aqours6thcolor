@@ -144,9 +144,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-2">
         <article className="max-w-4xl mx-auto">
-          <h2 className="text-md font-normal mt-3 pb-2 border-b-4 border-gray-600 rounded-lg">
+          <h2 className="text-md font-normal mt-0 pb-2 border-b-4 border-gray-600 rounded-lg">
             <i className="fas fa-search mr-2"></i>
             {messages['title']}
           </h2>
