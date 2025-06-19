@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import nextConfig from "../../../next.config";
+const BASE_PATH = nextConfig.basePath || "";
 
 interface ResultModalProps {
   isOpen: boolean;
@@ -39,7 +41,7 @@ export default function ResultModal({ isOpen, onClose, result, messages }: Resul
           <h3 className="text-xl font-semibold text-white mb-4">{messages['your_color_is']}</h3>
           <div className="mb-4">
             <img 
-              src={result.image} 
+              src={`${BASE_PATH}${result.image}`} 
               alt={result.member}
               className="w-32 h-32 mx-auto rounded-full object-contain"
             />
