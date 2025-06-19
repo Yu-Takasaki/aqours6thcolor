@@ -36,15 +36,15 @@ export const BLOCK_DATA_FIRST = {
 // ブロック区分定数-ネット裏
 export const NET_BLOCK_MIN = 200; // ブロックが始まる数字
 export const NET_BLOCK_MAX = 227; // ブロックが終わる数字
-export const NET_BLOCK_DEFAULT_ROW_EVEN = [1, 16]; // 偶数ブロックの基本座席範囲
-export const NET_BLOCK_DEFAULT_ROW_ODD = [27, 47]; // 奇数ブロックの基本座席範囲
+export const NET_BLOCK_DEFAULT_ROW_EVEN = [1, 20]; // 偶数ブロックの基本座席範囲
+export const NET_BLOCK_DEFAULT_ROW_ODD = [21, 47]; // 奇数ブロックの基本座席範囲
 export const NET_BLOCK_NOT_DEFAULT_PATTERN = {     // パターン外のブロック
   // 座席番号：[座席最小番号, 座席最大番号]
   "200": [13, 20],
   "210": [4, 20],
   "212": [8, 20],
   "213": [21, 26],
-  "214": [8, 20],
+  "214": [8, 18],
   "215": [21, 26],
   "216": [4, 20],
   "226": [13, 20]
