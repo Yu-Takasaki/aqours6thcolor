@@ -13,11 +13,11 @@ export default function BaseSelector({ value, onChange, seatType, messages, loca
   const baseOptions = getBaseOptions(seatType, locale);
 
   return (
-    <div className="bg-gray-800 rounded-lg border border-gray-700 p-4">
-      <h4 className="text-xl font-semibold text-center mb-3">{messages['base']}</h4>
-      <p className="text-gray-400 text-sm mb-3">{messages['base_note']}</p>
+    <div className="bg-gray-800 rounded-lg border border-gray-700 px-4 py-2">
+      <h4 className="text-sm font-semibold text-center mb-2">{messages['base']}</h4>
+      <p className="text-gray-400 text-xs mb-2">{messages['base_note']}</p>
       <select 
-        className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-1 text-xs bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={!seatType}
@@ -28,7 +28,7 @@ export default function BaseSelector({ value, onChange, seatType, messages, loca
         ))}
       </select>
       {!value && seatType && (
-        <div className="text-red-400 text-sm mt-2">{messages['select_base']}</div>
+        <div className="text-red-400 text-xs mt-2">{messages['select_base']}</div>
       )}
     </div>
   );

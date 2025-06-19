@@ -146,7 +146,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
         <article className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-normal mt-3 pb-2 border-b-4 border-gray-600 rounded-lg">
+          <h2 className="text-md font-normal mt-3 pb-2 border-b-4 border-gray-600 rounded-lg">
             <i className="fas fa-search mr-2"></i>
             {messages['title']}
           </h2>
@@ -159,7 +159,7 @@ export default function Home() {
           <div className="mt-2">
             <InfoAccordion messages={messages} />
 
-            <div className="space-y-4">
+            <div className="space-y-2">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <SeatTypeSelector
                   value={seatType}
